@@ -16,6 +16,7 @@ const App = () => {
   const [modList, setModList] = useState(test.map((item) => item.name));
   const [selectedMods, setSelectedMods] = useState();
   const [needed, setNeeded] = useState([]);
+  const [neededList, setNeededList] = useState([]);
 
   const addNeeded = (item) => {
     setNeeded((old) => [...old, item]);
@@ -26,15 +27,25 @@ const App = () => {
       const count = needed.filter((name) => name === item).length;
       return `${count}x ${item}`;
     });
-    const uniq = [...new Set(newArray)];
-    return uniq;
+    const uniq = [...new Set(needed)];
+    const test = {};
+    uniq.map((yes) => {
+      test[yes] = needed.filter((name) => name === yes).length;
+    });
+
+    console.log(Object.entries(test));
+    setNeededList(Object.entries(test).sort());
   };
+
+  useEffect(() => {
+    getNeeded();
+  }, [needed]);
 
   const removeNeeded = (item) => {
     var index = needed.indexOf(item);
     needed.splice(index, 1);
     setNeeded(needed);
-    console.log(index);
+    const ahopp = getNeeded();
   };
 
   useEffect(() => {
@@ -71,9 +82,11 @@ const App = () => {
             ))}
         </div>
         <div className="needed-stats">
-          {Array.isArray(needed) &&
-            needed.length > 0 &&
-            getNeeded().map((item, index) => <h1 key={index}>{item}</h1>)}
+          {Array.isArray(neededList) &&
+            neededList.length > 0 &&
+            neededList.map((item, index) => (
+              <h1 key={index}>{`${item[1]}x ${item[0]}`}</h1>
+            ))}
         </div>
       </StyledHome>
     </>

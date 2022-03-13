@@ -65,7 +65,6 @@ const Item = (props) => {
   useEffect(() => {
     if (!have && !item.combination) {
       add(item.name);
-      console.log('tes');
     }
     if (have && !item.combination) remove(item.name);
   }, [have]);
