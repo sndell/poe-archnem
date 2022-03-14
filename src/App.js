@@ -13,7 +13,7 @@ const StyledHome = styled.div`
 `;
 
 const App = () => {
-  const [modList, setModList] = useState(test.map((item) => item.name));
+  const modList = test.map((item) => item.name);
   const [selectedMods, setSelectedMods] = useState();
   const [needed, setNeeded] = useState([]);
   const [neededList, setNeededList] = useState([]);
@@ -23,34 +23,40 @@ const App = () => {
   };
 
   const getNeeded = () => {
-    const newArray = needed.map((item) => {
-      const count = needed.filter((name) => name === item).length;
-      return `${count}x ${item}`;
-    });
     const uniq = [...new Set(needed)];
     const test = {};
-    uniq.map((yes) => {
+    const test2 = uniq.map((yes) => {
       test[yes] = needed.filter((name) => name === yes).length;
+      return null;
     });
+    console.log(test2);
 
     console.log(Object.entries(test));
     setNeededList(Object.entries(test).sort());
   };
 
   useEffect(() => {
-    getNeeded();
+    const uniq = [...new Set(needed)];
+    const test = {};
+    const test23 = uniq.map((yes) => {
+      test[yes] = needed.filter((name) => name === yes).length;
+      return null;
+    });
+    console.log(test23);
+    console.log(Object.entries(test));
+    setNeededList(Object.entries(test).sort());
   }, [needed]);
 
   const removeNeeded = (item) => {
     var index = needed.indexOf(item);
     needed.splice(index, 1);
     setNeeded(needed);
-    const ahopp = getNeeded();
+    getNeeded();
   };
 
-  useEffect(() => {
-    console.log(modList);
-  }, []);
+  // useEffect(() => {
+  //   console.log(modList);
+  // }, []);
 
   const handleSelect = (e) => {
     setSelectedMods(test.filter((item) => item.name === e.target.value));
