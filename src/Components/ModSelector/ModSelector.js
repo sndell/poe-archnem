@@ -32,33 +32,6 @@ const StyledModSelector = styled.div`
         margin-top: 2px;
       }
     }
-
-    .menu-filter {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      background: #212124;
-
-      input {
-        background-color: #111112;
-        padding-left: 8px;
-        border: none;
-        outline: none;
-        color: white;
-        height: 100%;
-        width: 8rem;
-
-        &::placeholder {
-          color: #c5c5c5;
-        }
-      }
-
-      svg {
-        height: 100%;
-        padding: 0 8px;
-        background-color: #111112;
-      }
-    }
   }
 
   .menu {
@@ -85,6 +58,8 @@ const StyledModSelector = styled.div`
       }
 
       .boss {
+        display: flex;
+        flex-direction: column;
         color: #ff3c3c;
       }
     }
@@ -96,7 +71,7 @@ const StyledModSelector = styled.div`
       align-items: center;
       justify-content: space-between;
 
-      &_text {
+      /* &_text {
         display: flex;
         color: #ffffff;
         margin-left: 8px;
@@ -108,6 +83,37 @@ const StyledModSelector = styled.div`
         margin-left: 8px;
         font-weight: 300;
         color: #c5c5c5;
+      } */
+
+      &_filter {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background: #212124;
+
+        input {
+          background-color: #212124;
+          padding-left: 8px;
+          padding-bottom: 2px;
+          border: none;
+          outline: none;
+          color: white;
+          font-size: 12px;
+          font-weight: 300;
+          height: 21px;
+          width: 100%;
+
+          &::placeholder {
+            color: #c5c5c5;
+          }
+        }
+
+        svg {
+          height: 100%;
+          padding: 0 8px;
+          background-color: #111112;
+        }
       }
 
       &_button {
@@ -116,6 +122,13 @@ const StyledModSelector = styled.div`
         padding: 0 8px;
         align-items: center;
         background-color: #ffffff;
+        cursor: pointer;
+
+        h1 {
+          padding-bottom: 1px;
+          padding-left: 6px;
+          font-size: 14px;
+        }
 
         svg {
           margin-left: 6px;
@@ -142,6 +155,10 @@ const ModSelector = () => {
     setFilterText(e.target.value);
   };
 
+  const handleSelect = (e) => {
+    console.log(selectedMods.length > 3);
+  };
+
   useEffect(() => {
     if (filterText) {
       setFilteredMods(
@@ -157,7 +174,6 @@ const ModSelector = () => {
   }, [filterText]);
 
   const toggleMenu = () => {
-    console.log(!showMenu);
     setShowMenu(!showMenu);
   };
 
@@ -189,15 +205,6 @@ const ModSelector = () => {
           <h1>Select mods</h1>
           <BsFilter />
         </div>
-        <div className={showMenu ? 'menu-filter' : 'menu-filter hidden'}>
-          <input
-            type="text"
-            value={filterText}
-            onChange={handleSearch}
-            placeholder="filter"
-          />
-          <BsSearch style={{ fill: 'white' }} />
-        </div>
       </div>
       <div className={showMenu ? 'menu' : 'menu hidden'}>
         <div className="mod-container">
@@ -218,7 +225,7 @@ const ModSelector = () => {
           </div>
         </div>
         <div className="menu-bottom">
-          <div className="menu-bottom_text">
+          {/* <div className="menu-bottom_text">
             <p>{selectedMods.length}/4</p>
             {selectedMods.length > 0 &&
               selectedMods.map((mod, index) => (
@@ -226,8 +233,21 @@ const ModSelector = () => {
                   {mod}
                 </p>
               ))}
+          </div> */}
+          <div
+            className={
+              showMenu ? 'menu-bottom_filter' : 'menu-bottom_filter hidden'
+            }
+          >
+            <BsSearch style={{ fill: 'white' }} />
+            <input
+              type="text"
+              value={filterText}
+              onChange={handleSearch}
+              placeholder="Highlight mods..."
+            />
           </div>
-          <div className="menu-bottom_button">
+          <div className="menu-bottom_button" onClick={handleSelect}>
             <h1>Select</h1>
             <BsArrowRightShort />
           </div>
