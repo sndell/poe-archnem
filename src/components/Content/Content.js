@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { GlobalContext } from '../../context';
+import Combination from '../Combination/Combination';
 
 const StyledContent = styled.div`
+  width: 100%;
+
   .content-top {
     display: flex;
     justify-content: space-between;
@@ -21,10 +24,17 @@ const StyledContent = styled.div`
       }
     }
   }
+
+  .content-main {
+    padding: 8px;
+  }
 `;
 
 const Content = () => {
-  const { dispatch } = GlobalContext();
+  const {
+    state: { combinations },
+    dispatch,
+  } = GlobalContext();
   const handleNew = () => {
     dispatch({ type: 'MENU_NEW' });
   };
@@ -37,6 +47,11 @@ const Content = () => {
           <h1>create new</h1>
         </div>
       </header>
+      <div className="content-main">
+        {combinations.items.map((combination) => (
+          <Combination combination={combination} key={combination.id} />
+        ))}
+      </div>
     </StyledContent>
   );
 };

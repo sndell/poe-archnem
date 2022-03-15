@@ -130,7 +130,7 @@ const GlobalStyle = styled.createGlobalStyle`
   }
 
   .hidden {
-    display: none;
+    display: none !important;
   }
 `;
 

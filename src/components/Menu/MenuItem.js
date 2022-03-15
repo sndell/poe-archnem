@@ -45,8 +45,6 @@ const MenuItem = ({ mod }) => {
     dispatch,
   } = GlobalContext();
 
-  console.log(selected);
-
   const handleSelect = () => {
     if (selected.includes(mod.name))
       dispatch({ type: 'MENU_DESELECT', payload: mod.name });

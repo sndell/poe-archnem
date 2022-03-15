@@ -28,14 +28,14 @@ const StyledMenu = styled.div`
       .drop,
       .recipie,
       .boss {
-        padding: 10px;
+        padding: 8px;
       }
 
       .drop,
       .recipie {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        margin-right: 8px;
+        /* margin-right: 18px; */
         /* border-right: 1px solid black; */
       }
 
@@ -73,14 +73,15 @@ const Menu = () => {
     return <MenuItem mod={mod} key={`${type}-${mod.name}`} />;
   };
 
-  console.log(menu);
-
   const handleClose = () => {
     dispatch({ type: 'MENU_CLOSE' });
   };
 
   const handleConfirm = () => {
-    dispatch({ type: 'MENU_CLOSE' });
+    if (menu.selected.length > 0) {
+      dispatch({ type: 'NEW', payload: menu.selected });
+      dispatch({ type: 'MENU_CLOSE' });
+    }
   };
 
   return (

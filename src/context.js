@@ -9,7 +9,7 @@ const defaultState = {
     mode: '',
     selected: [],
   },
-  combinations: [],
+  combinations: { selected: [], items: [] },
 };
 
 const AppContext = React.createContext();
