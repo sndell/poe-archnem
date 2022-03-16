@@ -10,6 +10,13 @@ const defaultState = {
     selected: [],
   },
   combinations: { selected: [], items: [] },
+  needed: [],
+  owned: {
+    all: [],
+    unassigned: [],
+    assigned: [],
+  },
+  expanded: {},
 };
 
 const AppContext = React.createContext();

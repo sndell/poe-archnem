@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { GlobalContext } from '../../context';
 import { GrClose, GrCheckmark } from 'react-icons/gr';
@@ -24,11 +24,12 @@ const StyledMenu = styled.div`
 
     &_content {
       display: flex;
+      padding: 8px;
 
       .drop,
       .recipie,
       .boss {
-        padding: 8px;
+        /* padding: 8px; */
       }
 
       .drop,
@@ -39,7 +40,16 @@ const StyledMenu = styled.div`
         /* border-right: 1px solid black; */
       }
 
+      .drop {
+        /* color: #160094; */
+      }
+
+      .recipie {
+        /* color: #018312; */
+      }
+
       .boss {
+        /* color: #d60a0a; */
         display: flex;
         flex-direction: column;
       }
@@ -68,6 +78,9 @@ const Menu = () => {
     state: { menu, mods },
     dispatch,
   } = GlobalContext();
+  const [needed, setNeeded] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [finnished, setFinnished] = useState(false);
 
   const getMenuItem = (mod, type) => {
     return <MenuItem mod={mod} key={`${type}-${mod.name}`} />;
@@ -79,10 +92,31 @@ const Menu = () => {
 
   const handleConfirm = () => {
     if (menu.selected.length > 0) {
-      dispatch({ type: 'NEW', payload: menu.selected });
+      const needed = menu.selected.map(
+        (mod) => mods.filter((item) => item.name === mod)[0]
+      );
+      // setSelected(items);
+      // calcNeeded(items);
+      dispatch({ type: 'NEW', payload: { items: selected, needed } });
       dispatch({ type: 'MENU_CLOSE' });
     }
   };
+
+  // useEffect(() => {
+  //   if (finnished) {
+  //     setNeeded([]);
+  //     setFinnished(false);
+  //     dispatch({ type: 'NEW', payload: { items: selected, needed } });
+  //   }
+  // }, [needed, finnished, selected, dispatch]);
+
+  // const calcNeeded = (selected) => {
+  //   selected.forEach((item) => {
+  //     setNeeded((old) => [...old, item]);
+  //     if (item.combination) calcNeeded(item.combination);
+  //   });
+  //   setFinnished(true);
+  // };
 
   return (
     <StyledMenu className={!menu.active && 'hidden'}>

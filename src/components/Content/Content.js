@@ -5,22 +5,30 @@ import Combination from '../Combination/Combination';
 
 const StyledContent = styled.div`
   width: 100%;
+  display: flex;
 
-  .content-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid black;
-    /* background-color: red; */
+  .content-right {
+    border-left: 1px solid black;
+  }
 
-    &_button {
-      margin: 8px;
-      cursor: pointer;
+  .content-left {
+    width: 100%;
+    .content-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid black;
+      /* background-color: red; */
 
-      h1 {
-        padding: 4px 8px;
-        border: 1px solid black;
-        border-radius: 2px;
+      &_button {
+        margin: 8px;
+        cursor: pointer;
+
+        h1 {
+          padding: 4px 8px;
+          border: 1px solid black;
+          border-radius: 2px;
+        }
       }
     }
   }
@@ -32,26 +40,32 @@ const StyledContent = styled.div`
 
 const Content = () => {
   const {
-    state: { combinations },
+    state: { combinations, expanded },
     dispatch,
   } = GlobalContext();
+
   const handleNew = () => {
     dispatch({ type: 'MENU_NEW' });
   };
 
   return (
     <StyledContent>
-      <header className="content-top">
-        <div className="content-top_filter"></div>
-        <div className="content-top_button" onClick={handleNew}>
-          <h1>create new</h1>
+      <div className="content-left">
+        <header className="content-top">
+          <div className="content-top_filter"></div>
+          <div className="content-top_button" onClick={handleNew}>
+            <h1>create new</h1>
+          </div>
+        </header>
+        <div className="content-main">
+          {combinations.items.map((combination) => (
+            <Combination combination={combination} key={combination.id} />
+          ))}
         </div>
-      </header>
-      <div className="content-main">
-        {combinations.items.map((combination) => (
-          <Combination combination={combination} key={combination.id} />
-        ))}
       </div>
+      {Object.keys(expanded).length > 0 && (
+        <div className="content-right">helop</div>
+      )}
     </StyledContent>
   );
 };

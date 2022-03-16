@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { GoTrashcan } from 'react-icons/go';
 import { VscEdit } from 'react-icons/vsc';
+import { BiPlus, BiMinus } from 'react-icons/bi';
 import { GlobalContext } from '../../context';
 // import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti';
 
@@ -45,6 +46,7 @@ const StyledCombination = styled.div`
 
     svg {
       margin-right: 8px;
+      cursor: pointer;
     }
 
     h1 {
@@ -61,6 +63,7 @@ const Combination = ({ combination }) => {
   const {
     state: {
       combinations: { selected },
+      expanded,
     },
     dispatch,
   } = GlobalContext();
@@ -73,25 +76,26 @@ const Combination = ({ combination }) => {
   // const handleDown = () => {};
 
   const handleSelect = () => {
-    if (selected.includes(combination.id))
+    if (selected.filter((item) => item.id === combination.id).length > 0) {
       dispatch({ type: 'COMBINATIONS_DESELECT', payload: combination.id });
-    else dispatch({ type: 'COMBINATIONS_SELECT', payload: combination.id });
+    } else dispatch({ type: 'COMBINATIONS_SELECT', payload: combination });
   };
 
   const handleView = (e) => {
     e.stopPropagation();
-    console.log('vuew');
+    if (expanded.id === combination.id)
+      dispatch({ type: 'SET_EXPANDED', payload: [] });
+    else dispatch({ type: 'SET_EXPANDED', payload: combination });
   };
 
   return (
     <StyledCombination>
       <div
         className={
-          selected.includes(combination.id)
+          selected.filter((item) => item.id === combination.id).length > 0
             ? 'combination selected'
             : 'combination'
         }
-        onClick={handleSelect}
       >
         <div className="combination-details">
           {/* <TiArrowSortedUp className="order-up" onClick={handleUp} />
@@ -107,6 +111,11 @@ const Combination = ({ combination }) => {
           ))}
         </div>
         <div className="combination-management">
+          {selected.filter((item) => item.id === combination.id).length > 0 ? (
+            <BiMinus onClick={handleSelect} />
+          ) : (
+            <BiPlus onClick={handleSelect} />
+          )}
           <VscEdit />
           <GoTrashcan />
           <h1 onClick={handleView}>view</h1>
