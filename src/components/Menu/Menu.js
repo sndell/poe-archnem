@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { GlobalContext } from '../../context';
 import { GrClose, GrCheckmark } from 'react-icons/gr';
@@ -78,10 +78,6 @@ const Menu = () => {
     state: { menu, mods },
     dispatch,
   } = GlobalContext();
-  const [needed, setNeeded] = useState([]);
-  const [selected, setSelected] = useState([]);
-  const [finnished, setFinnished] = useState(false);
-
   const getMenuItem = (mod, type) => {
     return <MenuItem mod={mod} key={`${type}-${mod.name}`} />;
   };
@@ -92,12 +88,12 @@ const Menu = () => {
 
   const handleConfirm = () => {
     if (menu.selected.length > 0) {
-      const needed = menu.selected.map(
+      const items = menu.selected.map(
         (mod) => mods.filter((item) => item.name === mod)[0]
       );
       // setSelected(items);
       // calcNeeded(items);
-      dispatch({ type: 'NEW', payload: { items: selected, needed } });
+      dispatch({ type: 'NEW', payload: { items } });
       dispatch({ type: 'MENU_CLOSE' });
     }
   };

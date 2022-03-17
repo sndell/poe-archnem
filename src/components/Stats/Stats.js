@@ -100,7 +100,9 @@ const Stats = () => {
           </div>
         </div>
       ) : (
-        <div className="container">{all.map((item) => getItem(item))}</div>
+        <div className="stats-list">
+          <div className="container">{all.map((item) => getItem(item))}</div>
+        </div>
       )}
 
       <div className="stats-bottom">

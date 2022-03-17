@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { BiPlus, BiMinus } from 'react-icons/bi';
 import { GlobalContext } from '../../context';
@@ -41,6 +41,7 @@ const StatsItem = ({ item, owned }) => {
   const {
     state: {
       combinations: { selected },
+      owned: { all },
     },
     dispatch,
   } = GlobalContext();
@@ -48,15 +49,19 @@ const StatsItem = ({ item, owned }) => {
   const handleRemove = () => {
     if (!owned) {
       dispatch({ type: 'ADD_OWNED', payload: item });
-      dispatch({ type: 'GET_NEEDED', payload: selected });
+      // dispatch({ type: 'GET_NEEDED', payload: selected });
     }
   };
   const handleAdd = () => {
     if (owned) {
       dispatch({ type: 'ADD_OWNED', payload: item });
-      dispatch({ type: 'GET_NEEDED', payload: selected });
+      // dispatch({ type: 'GET_NEEDED', payload: selected });
     }
   };
+
+  useEffect(() => {
+    dispatch({ type: 'GET_NEEDED', payload: selected });
+  }, [all, selected, dispatch]);
 
   if (item.amount > 0) {
     return (
