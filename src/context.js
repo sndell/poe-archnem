@@ -11,6 +11,11 @@ const defaultState = {
     id: '',
   },
   combinations: [],
+  needed: {
+    all: [],
+    unassigned: [],
+    assigned: [],
+  },
 };
 
 const AppContext = React.createContext();

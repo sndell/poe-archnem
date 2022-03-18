@@ -108,6 +108,9 @@ const GlobalStyle = styled.createGlobalStyle`
   body {
     line-height: 1;
     font-family: 'Ubuntu', sans-serif;
+    background-color: ${({ theme }) => theme.colors.secondary};
+    /* background: black url('../data/test.png') no-repeat fixed center !important; */
+    /* background-color: #222020; */
   }
   ol,
   ul {

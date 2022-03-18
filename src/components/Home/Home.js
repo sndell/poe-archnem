@@ -6,15 +6,16 @@ import Combination from '../Combination/Combination';
 import Stats from '../Stats/Stats';
 
 const StyledHome = styled.div`
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.secondary};
   /* width: 640px; */
 
   .home {
     display: flex;
     flex-direction: column;
+    height: 100vh;
 
     .home-top {
-      height: 40px;
+      min-height: 40px;
       display: flex;
       justify-content: end;
       align-items: center;
@@ -32,10 +33,15 @@ const StyledHome = styled.div`
     }
 
     .home-main {
-      height: calc(100vh - 40px);
+      height: 100%;
       display: flex;
+      gap: 8px;
+      padding: 8px;
+      /* background-color: ${({ theme }) => theme.colors.primary}; */
 
       .combinations-container {
+        border-radius: 8px;
+        background-color: ${({ theme }) => theme.colors.primary};
         width: 640px;
         padding: 8px;
         gap: 8px;

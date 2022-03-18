@@ -49,6 +49,44 @@ const reducer = (state, action) => {
         },
       };
     }
+    case 'NEEDED_GET': {
+      const needed = [];
+
+      action.payload.forEach((item) => {
+        if (item.active) {
+          const getNeeded = (items) => {
+            items.forEach((mod) => {
+              const found = needed.find((found) => found.name === mod.name);
+              if (mod.combination) {
+                if (found) found.amount++;
+                else {
+                  mod.amount = 1;
+                  needed.push(mod);
+                }
+                getNeeded(mod.combination);
+              } else {
+                if (found) found.amount++;
+                else {
+                  mod.amount = 1;
+                  needed.push(mod);
+                }
+              }
+            });
+          };
+
+          getNeeded(item.mods);
+          // console.log(neededRecipie.concat(neededDrop));
+        }
+      });
+      console.log(needed);
+      return {
+        ...state,
+        needed: {
+          ...state.needed,
+          all: needed,
+        },
+      };
+    }
     default:
       throw new Error();
   }
