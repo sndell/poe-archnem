@@ -78,15 +78,15 @@ const StyledModMenu = styled.div`
       }
 
       .drop {
-        color: #62f2ff;
+        color: ${({ theme }) => theme.colors.text.mods.drop};
       }
 
       .recipie {
-        color: #5cff69;
+        color: ${({ theme }) => theme.colors.text.mods.recipie};
       }
 
       .boss {
-        color: #f54d23;
+        color: ${({ theme }) => theme.colors.text.mods.boss};
       }
     }
 

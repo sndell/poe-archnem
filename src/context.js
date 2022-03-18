@@ -11,8 +11,8 @@ const defaultState = {
     id: '',
   },
   combinations: [],
-  needed: {
-    all: [],
+  items: {
+    needed: [],
     unassigned: [],
     assigned: [],
   },

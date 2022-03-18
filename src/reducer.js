@@ -49,7 +49,7 @@ const reducer = (state, action) => {
         },
       };
     }
-    case 'NEEDED_GET': {
+    case 'ITEMS_GET-NEEDED': {
       const needed = [];
 
       action.payload.forEach((item) => {
@@ -81,9 +81,9 @@ const reducer = (state, action) => {
       console.log(needed);
       return {
         ...state,
-        needed: {
-          ...state.needed,
-          all: needed,
+        items: {
+          ...state.items,
+          needed: needed,
         },
       };
     }

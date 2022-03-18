@@ -87,8 +87,8 @@ const Combination = ({ combination }) => {
       <div className="actions">
         {/* <BsThreeDotsVertical /> */}
         <div className="actions-icons">
-          <IoMdCheckmark />
-          <IoMdClose />
+          {/* <IoMdCheckmark />
+          <IoMdClose /> */}
           <MdEdit />
           <BsTrashFill />
           <AiFillEye />

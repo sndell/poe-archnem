@@ -107,10 +107,6 @@ const GlobalStyle = styled.createGlobalStyle`
   }
   body {
     line-height: 1;
-    font-family: 'Ubuntu', sans-serif;
-    background-color: ${({ theme }) => theme.colors.secondary};
-    /* background: black url('../data/test.png') no-repeat fixed center !important; */
-    /* background-color: #222020; */
   }
   ol,
   ul {
@@ -133,6 +129,25 @@ const GlobalStyle = styled.createGlobalStyle`
   }
   .hidden {
     display: none !important;
+  }
+  body {
+    font-family: 'Ubuntu', sans-serif;
+    /* background-color: ${({ theme }) => theme.colors.tertiary}; */
+    /* background: black url('../data/test.png') no-repeat fixed center !important; */
+    background-color: #000000;
+  }
+
+  * {
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: ${({ theme }) => theme.colors.accent};
+      border-radius: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: ${({ theme }) => theme.colors.tertiary};
+    }
   }
 `;
 

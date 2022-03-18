@@ -6,13 +6,21 @@ import Combination from '../Combination/Combination';
 import Stats from '../Stats/Stats';
 
 const StyledHome = styled.div`
-  background-color: ${({ theme }) => theme.colors.secondary};
+  /* background-color: ${({ theme }) => theme.colors.secondary}; */
   /* width: 640px; */
+  display: flex;
+  gap: 8px;
+  height: 100vh;
+  padding: 8px;
+  border-radius: 8px;
 
   .home {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
+    background-color: ${({ theme }) => theme.colors.primary};
+    border-radius: 8px;
+    overflow: hidden;
 
     .home-top {
       min-height: 40px;
@@ -20,6 +28,8 @@ const StyledHome = styled.div`
       justify-content: end;
       align-items: center;
       padding: 0 8px;
+      /* border-top-left-radius: 8px; */
+      /* border-top-right-radius: 8px; */
       border-bottom: 2px solid ${({ theme }) => theme.colors.accent};
       background-color: ${({ theme }) => theme.colors.secondary};
 
@@ -33,7 +43,6 @@ const StyledHome = styled.div`
     }
 
     .home-main {
-      height: 100%;
       display: flex;
       gap: 8px;
       padding: 8px;
@@ -41,8 +50,8 @@ const StyledHome = styled.div`
 
       .combinations-container {
         border-radius: 8px;
-        background-color: ${({ theme }) => theme.colors.primary};
-        width: 640px;
+
+        width: 800px;
         padding: 8px;
         gap: 8px;
         display: flex;
@@ -76,10 +85,9 @@ const Home = () => {
               <Combination combination={item} key={item.id} />
             ))}
           </div>
-          <Stats />
         </div>
       </div>
-
+      <Stats />
       {menu.active && <ModMenu />}
     </StyledHome>
   );

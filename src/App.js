@@ -8,14 +8,6 @@ const StyledApp = styled.div`
   display: flex;
   justify-content: center;
   overflow: hidden;
-
-  header {
-    width: 100vw;
-    height: 40px;
-    background-color: red;
-    background-color: ${({ theme }) => theme.colors.secondary};
-    border-bottom: 2px solid ${({ theme }) => theme.colors.accent};
-  }
 `;
 
 const App = () => {
@@ -24,10 +16,8 @@ const App = () => {
       <GlobalStyle />
 
       <StyledApp>
-        <header />
         <Home />
         {/* <Stats /> */}
-        <header />
       </StyledApp>
     </ThemeProvider>
   );
