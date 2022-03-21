@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaMinus } from 'react-icons/fa';
+import { GlobalContext } from '../../context';
 
 const StyledStatsItem = styled.div`
   display: flex;
@@ -35,11 +36,20 @@ const StyledStatsItem = styled.div`
       color: ${({ theme }) => theme.colors.text.primary};
       font-size: 12px;
       padding: 0 6px 0 8px;
+      cursor: pointer;
     }
   }
 `;
 
 const StatsItem = ({ item }) => {
+  const {
+    state: { items, combinations },
+    dispatch,
+  } = GlobalContext();
+  const handleClick = () => {
+    dispatch({ type: 'ITEMS_ADD-UNASSIGNED', payload: item });
+    dispatch({ type: 'ITEMS_GET-NEEDED', payload: combinations });
+  };
   return (
     <StyledStatsItem>
       <div className="info">
@@ -52,7 +62,7 @@ const StatsItem = ({ item }) => {
         <h1>{item.name}</h1>
       </div>
       <div className="details">
-        <FaMinus />
+        <FaMinus onClick={handleClick} />
         <h1>{item.amount}</h1>
       </div>
     </StyledStatsItem>

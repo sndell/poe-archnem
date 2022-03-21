@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { GlobalContext } from '../../context';
-import ModMenuItem from './ModMenuItem';
 import { BiSearch } from 'react-icons/bi';
 import { GrClose, GrCheckmark } from 'react-icons/gr';
+import OwnedMenuItem from './OwnedMenuItem';
 
-const StyledModMenu = styled.div`
+const StyledOwnedMenu = styled.div`
   position: absolute;
   display: flex;
   justify-content: center;
@@ -94,7 +94,6 @@ const StyledModMenu = styled.div`
       /* border-top: 2px solid #e2a011; */
       display: flex;
       justify-content: center;
-      gap: 8px;
       padding: 4px 0;
       /* color: #e2a011; */
 
@@ -109,7 +108,7 @@ const StyledModMenu = styled.div`
   }
 `;
 
-const ModMenu = () => {
+const OwnedMenu = () => {
   const {
     state: { mods, menu },
     dispatch,
@@ -121,14 +120,8 @@ const ModMenu = () => {
     setFilterText(e.target.value);
   };
 
-  const handleConfirm = () => {
-    if (menu.mod.selected.length > 0) {
-      dispatch({ type: 'COMBINATIONS_NEW', payload: menu.mod.selected });
-    }
-  };
-
   const handleClose = () => {
-    dispatch({ type: 'MENU_MOD_SET-ACTIVE', payload: false });
+    dispatch({ type: 'MENU_OWNED_SET-ACTIVE', payload: false });
   };
 
   useEffect(() => {
@@ -136,12 +129,12 @@ const ModMenu = () => {
       const found = mods.filter((mod) =>
         mod.name.toLowerCase().includes(filterText.toLowerCase())
       );
-      dispatch({ type: 'MENU_MOD_SET-FILTERED', payload: found });
-    } else dispatch({ type: 'MENU_MOD_SET-FILTERED', payload: [] });
+      dispatch({ type: 'MENU_OWNED_SET-FILTERED', payload: found });
+    } else dispatch({ type: 'MENU_OWNED_SET-FILTERED', payload: [] });
   }, [filterText, dispatch, mods]);
 
   return (
-    <StyledModMenu>
+    <StyledOwnedMenu>
       <div className="menu">
         <div className="menu-top">
           <BiSearch />
@@ -157,31 +150,30 @@ const ModMenu = () => {
             {mods
               .filter((mod) => !mod.combination)
               .map((mod) => (
-                <ModMenuItem mod={mod} key={`drop-${mod.name}`} />
+                <OwnedMenuItem mod={mod} key={`drop-${mod.name}`} />
               ))}
           </div>
           <div className="recipie">
             {mods
               .filter((mod) => mod.combination && !mod.name.includes('touched'))
               .map((mod) => (
-                <ModMenuItem mod={mod} key={`recipie-${mod.name}`} />
+                <OwnedMenuItem mod={mod} key={`recipie-${mod.name}`} />
               ))}
           </div>
           <div className="boss">
             {mods
               .filter((mod) => mod.name.includes('touched'))
               .map((mod) => (
-                <ModMenuItem mod={mod} key={`boss-${mod.name}`} />
+                <OwnedMenuItem mod={mod} key={`boss-${mod.name}`} />
               ))}
           </div>
         </div>
         <div className="menu-bottom">
           <GrClose onClick={handleClose} />
-          <GrCheckmark onClick={handleConfirm} />
         </div>
       </div>
-    </StyledModMenu>
+    </StyledOwnedMenu>
   );
 };
 
-export default ModMenu;
+export default OwnedMenu;

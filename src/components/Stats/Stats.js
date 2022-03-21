@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { GlobalContext } from '../../context';
+import OwnedMenu from '../OwnedMenu/OwnedMenu';
 import StatsItem from './StatsItem';
 
 const StyledStats = styled.div`
@@ -48,6 +49,7 @@ const StyledStats = styled.div`
     .stats-bottom-button {
       background-color: ${({ theme }) => theme.colors.accent};
       padding: 4px 8px;
+      cursor: pointer;
       border-radius: 8px;
     }
 
@@ -62,13 +64,17 @@ const StyledStats = styled.div`
 
 const Stats = () => {
   const {
-    state: { items, combinations },
+    state: { items, combinations, menu },
     dispatch,
   } = GlobalContext();
 
   useEffect(() => {
     dispatch({ type: 'ITEMS_GET-NEEDED', payload: combinations });
   }, [combinations, dispatch]);
+
+  const handleOpen = () => {
+    dispatch({ type: 'MENU_OWNED_SET-ACTIVE', payload: true });
+  };
 
   return (
     <StyledStats>
@@ -98,12 +104,15 @@ const Stats = () => {
         </div>
       </div>
       <div className="stats-bottom">
-        <h1 className="stats-bottom-button">Owned</h1>
+        <h1 className="stats-bottom-button" onClick={handleOpen}>
+          Owned
+        </h1>
         {/* <div className="filter">
           <h1>Drop only</h1>
           <input type="checkbox" name="" id="" />
         </div> */}
       </div>
+      {menu.owned.active && <OwnedMenu />}
     </StyledStats>
   );
 };

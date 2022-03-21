@@ -68,7 +68,7 @@ const Home = () => {
   } = GlobalContext();
 
   const handleOpen = () => {
-    dispatch({ type: 'MENU_SET-ACTIVE', payload: true });
+    dispatch({ type: 'MENU_MOD_SET-ACTIVE', payload: true });
   };
 
   return (
@@ -88,7 +88,7 @@ const Home = () => {
         </div>
       </div>
       <Stats />
-      {menu.active && <ModMenu />}
+      {menu.mod.active && <ModMenu />}
     </StyledHome>
   );
 };

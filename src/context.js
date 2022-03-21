@@ -5,16 +5,23 @@ import mods from './data/mods';
 const defaultState = {
   mods,
   menu: {
-    active: true,
-    selected: [],
-    filtered: [],
-    id: '',
+    mod: {
+      active: false,
+      selected: [],
+      filtered: [],
+      id: '',
+    },
+    owned: {
+      active: true,
+      filtered: [],
+    },
   },
   combinations: [],
   items: {
     needed: [],
     unassigned: [],
     assigned: [],
+    owned: [],
   },
 };
 

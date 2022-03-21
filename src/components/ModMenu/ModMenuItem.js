@@ -38,22 +38,22 @@ const ModMenuItem = ({ mod }) => {
 
   const handleSelect = () => {
     let items = [];
-    if (menu.selected.find((item) => item.name === mod.name))
-      items = menu.selected.filter((item) => item.name !== mod.name);
-    else if (menu.selected.length < 4) items = [...menu.selected, mod];
-    else items = menu.selected;
-    dispatch({ type: 'MENU_SET-SELECTED', payload: items });
+    if (menu.mod.selected.find((item) => item.name === mod.name))
+      items = menu.mod.selected.filter((item) => item.name !== mod.name);
+    else if (menu.mod.selected.length < 4) items = [...menu.mod.selected, mod];
+    else items = menu.mod.selected;
+    dispatch({ type: 'MENU_MOD_SET-SELECTED', payload: items });
   };
 
   return (
     <StyledModMenuItem>
       <div
         className={
-          menu.filtered.find((item) => item.name === mod.name)
-            ? menu.selected.find((item) => item.name === mod.name)
+          menu.mod.filtered.find((item) => item.name === mod.name)
+            ? menu.mod.selected.find((item) => item.name === mod.name)
               ? 'item highlighted selected'
               : 'item highlighted'
-            : menu.selected.find((item) => item.name === mod.name)
+            : menu.mod.selected.find((item) => item.name === mod.name)
             ? 'item selected'
             : 'item'
         }
