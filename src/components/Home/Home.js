@@ -45,13 +45,13 @@ const StyledHome = styled.div`
     .home-main {
       display: flex;
       gap: 8px;
+      width: 800px;
       padding: 8px;
       /* background-color: ${({ theme }) => theme.colors.primary}; */
 
       .combinations-container {
         border-radius: 8px;
 
-        width: 800px;
         padding: 8px;
         gap: 8px;
         display: flex;

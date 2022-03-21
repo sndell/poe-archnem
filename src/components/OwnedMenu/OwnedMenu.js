@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { GlobalContext } from '../../context';
 import { BiSearch } from 'react-icons/bi';
-import { GrClose, GrCheckmark } from 'react-icons/gr';
+import { GrClose } from 'react-icons/gr';
 import OwnedMenuItem from './OwnedMenuItem';
 
 const StyledOwnedMenu = styled.div`
@@ -110,7 +110,7 @@ const StyledOwnedMenu = styled.div`
 
 const OwnedMenu = () => {
   const {
-    state: { mods, menu },
+    state: { mods },
     dispatch,
   } = GlobalContext();
 
