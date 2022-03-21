@@ -43,7 +43,7 @@ const StyledStatsItem = styled.div`
 
 const StatsItem = ({ item }) => {
   const {
-    state: { items, combinations },
+    state: { combinations },
     dispatch,
   } = GlobalContext();
   const handleClick = () => {

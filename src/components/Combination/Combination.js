@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { BsTrashFill } from 'react-icons/bs';
 import { AiFillEye } from 'react-icons/ai';
 import { MdEdit } from 'react-icons/md';
-import { IoMdCheckmark, IoMdClose } from 'react-icons/io';
 
 const StyledCombination = styled.div`
   /* background-color: white; */
