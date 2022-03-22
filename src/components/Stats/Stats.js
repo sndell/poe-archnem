@@ -12,7 +12,7 @@ const StyledStats = styled.div`
   justify-content: space-between;
   background-color: ${({ theme }) => theme.colors.primary};
   /* background-color: #0e0e0f; */
-  min-width: 240px;
+  min-width: 272px;
   border-radius: 8px;
   overflow: hidden;
   /* border-left: 2px solid ${({ theme }) => theme.colors.accent}; */

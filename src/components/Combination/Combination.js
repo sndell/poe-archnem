@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BsTrashFill } from 'react-icons/bs';
 import { AiFillEye } from 'react-icons/ai';
 import { MdEdit } from 'react-icons/md';
+import { GlobalContext } from '../../context';
 
 const StyledCombination = styled.div`
   /* background-color: white; */
@@ -70,6 +71,10 @@ const StyledCombination = styled.div`
 `;
 
 const Combination = ({ combination }) => {
+  const { dispatch } = GlobalContext();
+  const handleView = () => {
+    dispatch({ type: 'EXPLORER_SET', payload: combination });
+  };
   return (
     <StyledCombination>
       <div className="details">
@@ -93,7 +98,9 @@ const Combination = ({ combination }) => {
           <AiFillEye />
         </div>
         <div className="divider" />
-        <h1 className="view-button">View</h1>
+        <h1 className="view-button" onClick={handleView}>
+          View
+        </h1>
       </div>
     </StyledCombination>
   );

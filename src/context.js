@@ -6,21 +6,23 @@ const defaultState = {
   mods,
   menu: {
     mod: {
-      active: false,
+      active: true,
       selected: [],
       filtered: [],
       id: '',
     },
     owned: {
-      active: true,
+      active: false,
       filtered: [],
     },
+  },
+  explorer: {
+    combination: {},
   },
   combinations: [],
   items: {
     needed: [],
     unassigned: [],
-    assigned: [],
     owned: [],
   },
 };

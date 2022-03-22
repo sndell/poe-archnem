@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import ModMenu from '../ModMenu/ModMenu';
 import { GlobalContext } from '../../context';
 import Combination from '../Combination/Combination';
 import Stats from '../Stats/Stats';
+import Explorer from '../../Explorer/Explorer';
+import AssignedStats from '../../AssignedStats/AssignedStats';
 
 const StyledHome = styled.div`
   /* background-color: ${({ theme }) => theme.colors.secondary}; */
@@ -51,7 +53,8 @@ const StyledHome = styled.div`
 
       .combinations-container {
         border-radius: 8px;
-
+        /* width: 800px; */
+        width: 100%;
         padding: 8px;
         gap: 8px;
         display: flex;
@@ -63,7 +66,7 @@ const StyledHome = styled.div`
 
 const Home = () => {
   const {
-    state: { menu, combinations },
+    state: { menu, combinations, explorer },
     dispatch,
   } = GlobalContext();
 
@@ -71,23 +74,37 @@ const Home = () => {
     dispatch({ type: 'MENU_MOD_SET-ACTIVE', payload: true });
   };
 
+  useEffect(() => {
+    dispatch({ type: 'COMBINATIONS_GET-TREE', payload: combinations });
+  }, [combinations, dispatch]);
+
   return (
     <StyledHome>
-      <div className="home">
-        <div className="home-top">
-          <div className="new-button">
-            <h1 onClick={handleOpen}>Create New</h1>
+      {!Object.keys(explorer.combination).length > 0 ? (
+        <>
+          <div className="home">
+            <div className="home-top">
+              <div className="new-button">
+                <h1 onClick={handleOpen}>Create New</h1>
+              </div>
+            </div>
+            <div className="home-main">
+              <div className="combinations-container">
+                {combinations.map((item) => (
+                  <Combination combination={item} key={item.id} />
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="home-main">
-          <div className="combinations-container">
-            {combinations.map((item) => (
-              <Combination combination={item} key={item.id} />
-            ))}
-          </div>
-        </div>
-      </div>
-      <Stats />
+          <Stats />
+        </>
+      ) : (
+        <>
+          <Explorer />
+          <AssignedStats />
+        </>
+      )}
+
       {menu.mod.active && <ModMenu />}
     </StyledHome>
   );
