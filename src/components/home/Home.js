@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { GlobalContext } from '../../context';
 import Explorer from '../explorer/HomeExplorer';
@@ -14,9 +14,19 @@ const StyledHome = styled.div`
 `;
 const Home = () => {
   const {
-    state: { explorer, menu },
-    // dispatch,
+    state: { explorer, menu, combinations, refresh },
+    dispatch,
   } = GlobalContext();
+
+  useEffect(() => {
+    if (refresh) {
+      dispatch({
+        type: 'COMBINATIONS_CALCULATE',
+        payload: combinations,
+      });
+    }
+  }, [refresh]);
+
   return (
     <StyledHome>
       {explorer.id ? (

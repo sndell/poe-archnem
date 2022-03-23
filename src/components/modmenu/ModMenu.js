@@ -93,11 +93,22 @@ const ModMenu = () => {
 
   const handleConfirm = () => {
     if (menu.mod.selected.length > 0) {
-      dispatch({ type: 'COMBINATIONS_NEW', payload: menu.mod.selected });
-      dispatch({
-        type: 'MENU_SET-MOD',
-        payload: { active: false, id: '', selected: [] },
-      });
+      if (!menu.mod.id.length > 0) {
+        dispatch({ type: 'COMBINATIONS_NEW', payload: menu.mod.selected });
+        dispatch({
+          type: 'MENU_SET-MOD',
+          payload: { active: false, id: '', selected: [] },
+        });
+      } else {
+        dispatch({
+          type: 'COMBINATIONS_EDIT',
+          payload: { id: menu.mod.id, mods: menu.mod.selected },
+        });
+        dispatch({
+          type: 'MENU_SET-MOD',
+          payload: { active: false, id: '', selected: [] },
+        });
+      }
     }
   };
 

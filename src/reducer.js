@@ -16,7 +16,6 @@ const reducer = (state, action) => {
       };
     }
     case 'MENU_SET-MOD-HIGHLIGHTED': {
-      console.log(action.payload);
       return {
         ...state,
         menu: {
@@ -43,6 +42,7 @@ const reducer = (state, action) => {
     case 'COMBINATIONS_NEW': {
       return {
         ...state,
+        refresh: true,
         combinations: [
           ...state.combinations,
           {
@@ -50,8 +50,21 @@ const reducer = (state, action) => {
             name: 'New Combination',
             active: true,
             mods: JSON.parse(JSON.stringify(action.payload)),
+            calculated: [],
           },
         ],
+      };
+    }
+    case 'COMBINATIONS_EDIT': {
+      const combinations = JSON.parse(JSON.stringify(state.combinations));
+      const combination = combinations.find(
+        (found) => found.id === action.payload.id
+      );
+      combination.mods = action.payload.mods;
+      return {
+        ...state,
+        combinations,
+        refresh: true,
       };
     }
     case 'COMBINATIONS_SET-ACTIVE': {
@@ -64,6 +77,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         combinations,
+        refresh: true,
       };
     }
     case 'COMBINATIONS_SET-ORDER': {
@@ -85,6 +99,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         combinations,
+        refresh: true,
       };
     }
     case 'COMBINATIONS_SET-NAME': {
@@ -92,12 +107,101 @@ const reducer = (state, action) => {
       const combination = combinations.find(
         (found) => found.id === action.payload.id
       );
-      console.log(combination.name);
       combination.name = action.payload.text;
-      console.log(combination.name);
       return {
         ...state,
         combinations,
+      };
+    }
+    case 'COMBINATIONS_DELETE': {
+      const combinations = JSON.parse(JSON.stringify(state.combinations));
+      const items = JSON.parse(JSON.stringify(state.items));
+
+      return {
+        ...state,
+        combinations: combinations.filter((item) => item.id !== action.payload),
+        refresh: true,
+      };
+    }
+    case 'COMBINATIONS_CALCULATE': {
+      const combinations = JSON.parse(JSON.stringify(action.payload));
+      const items = JSON.parse(JSON.stringify(state.items));
+      const needed = [];
+
+      combinations.forEach((combination) => {
+        const resetMods = (mods) => {
+          mods.forEach((mod) => {
+            if (mod.assigned) delete mod.assigned;
+            if (mod.combination) resetMods(mod.combination);
+          });
+        };
+        resetMods(combination.mods);
+      });
+
+      combinations
+        .filter((item) => item.active === true)
+        .forEach((combination) => {
+          items.owned
+            .filter((item) => item.amount > 0)
+            .forEach((owned) => {
+              let count = owned.amount;
+              while (count > 0) {
+                let found;
+                const findMod = (mods) => {
+                  mods.forEach((mod) => {
+                    if (!mod.assigned) {
+                      if (mod.name === owned.name) {
+                        found = mod;
+                      }
+                      if (mod.combination) {
+                        findMod(mod.combination);
+                      }
+                    }
+                  });
+                };
+                findMod(combination.mods);
+                if (found) {
+                  found.assigned = true;
+                  owned.amount--;
+                }
+                count--;
+              }
+            });
+        });
+
+      combinations
+        .filter((item) => item.active)
+        .forEach((combination) => {
+          const findNeeded = (mods) => {
+            mods
+              .filter((mod) => !mod.assigned)
+              .forEach((mod) => {
+                const found = needed.find((found) => found.name === mod.name);
+                if (found) found.amount++;
+                else {
+                  const dupe = structuredClone(mod);
+                  console.log(dupe);
+                  needed.push({ ...dupe, amount: 1 });
+                }
+
+                if (mod.combination) {
+                  findNeeded(mod.combination);
+                }
+              });
+          };
+          findNeeded(combination.mods);
+        });
+
+      console.log(needed);
+
+      return {
+        ...state,
+        combinations,
+        refresh: false,
+        items: {
+          ...state.items,
+          needed,
+        },
       };
     }
     default:

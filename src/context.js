@@ -14,6 +14,11 @@ const defaultState = {
     },
   },
   combinations: [],
+  items: {
+    owned: [{ imgName: 'vamperic.png', name: 'Vamperic', amount: 3 }],
+    needed: [],
+  },
+  refresh: false,
 };
 
 const AppContext = React.createContext();
