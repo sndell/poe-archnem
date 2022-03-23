@@ -66,7 +66,7 @@ const StyledModMenu = styled.div`
 
       svg {
         background-color: ${({ theme }) => theme.colors.accent};
-        padding: 4px 8px;
+        padding: 4px 6px;
         border-radius: 8px;
         cursor: pointer;
         user-select: none;
