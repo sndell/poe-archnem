@@ -47,7 +47,7 @@ const reducer = (state, action) => {
           ...state.combinations,
           {
             id: Date.now().toString(),
-            name: 'New combination',
+            name: 'New Combination',
             active: true,
             mods: JSON.parse(JSON.stringify(action.payload)),
           },

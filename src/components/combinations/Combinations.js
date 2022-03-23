@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { GlobalContext } from '../../context';
+import CombinationsItem from './CombinationsItem';
 
 const StyledCombinations = styled.div`
+  height: 100%;
+  overflow-y: hidden;
+
   .top {
     background-color: ${({ theme }) => theme.colors.secondary};
     border-bottom: 2px solid ${({ theme }) => theme.colors.accent};
@@ -20,10 +24,17 @@ const StyledCombinations = styled.div`
       user-select: none;
     }
   }
+
+  .main {
+    padding: 8px;
+    /* height: 100%; */
+    height: calc(100% - 40px);
+    overflow-y: auto;
+  }
 `;
 const Combinations = () => {
   const {
-    // state: { menu },
+    state: { combinations },
     dispatch,
   } = GlobalContext();
 
@@ -38,8 +49,13 @@ const Combinations = () => {
     <StyledCombinations>
       <div className="top">
         <h1 className="top-new-btn" onClick={handleNew}>
-          Create new
+          Create New
         </h1>
+      </div>
+      <div className="main">
+        {combinations.map((item) => (
+          <CombinationsItem combination={item} key={item.id} />
+        ))}
       </div>
     </StyledCombinations>
   );

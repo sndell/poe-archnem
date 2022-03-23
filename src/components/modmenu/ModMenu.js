@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { GlobalContext } from '../../context';
 import ModMenuItem from './ModMenuItem';
@@ -66,7 +66,7 @@ const StyledModMenu = styled.div`
 
       svg {
         background-color: ${({ theme }) => theme.colors.accent};
-        padding: 4px 6px;
+        padding: 4px 8px;
         border-radius: 8px;
         cursor: pointer;
         user-select: none;
@@ -82,6 +82,7 @@ const ModMenu = () => {
   } = GlobalContext();
 
   const [inputText, setInputText] = useState('');
+  const input = useRef(null);
 
   const handleClose = () => {
     dispatch({
@@ -113,6 +114,10 @@ const ModMenu = () => {
     } else dispatch({ type: 'MENU_SET-MOD-HIGHLIGHTED', payload: [] });
   }, [inputText, dispatch, mods]);
 
+  useEffect(() => {
+    input.current.select();
+  }, []);
+
   return (
     <StyledModMenu>
       <div className="menu">
@@ -123,13 +128,14 @@ const ModMenu = () => {
             value={inputText}
             onChange={handleInputText}
             placeholder="highlight mods..."
+            ref={input}
           />
         </div>
         <div className="menu-main">
           {mods
-            .filter((mod) => !mod.combination)
+            .filter((mod) => mod.name.includes('touched'))
             .map((mod) => (
-              <ModMenuItem mod={mod} key={`drop-${mod.name}`} type="drop" />
+              <ModMenuItem mod={mod} key={`boss-${mod.name}`} type="boss" />
             ))}
           {mods
             .filter((mod) => mod.combination && !mod.name.includes('touched'))
@@ -141,9 +147,9 @@ const ModMenu = () => {
               />
             ))}
           {mods
-            .filter((mod) => mod.name.includes('touched'))
+            .filter((mod) => !mod.combination)
             .map((mod) => (
-              <ModMenuItem mod={mod} key={`boss-${mod.name}`} type="boss" />
+              <ModMenuItem mod={mod} key={`drop-${mod.name}`} type="drop" />
             ))}
         </div>
         <div className="menu-bottom">
