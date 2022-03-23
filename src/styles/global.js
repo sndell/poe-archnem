@@ -146,8 +146,8 @@ const GlobalStyle = styled.createGlobalStyle`
     }
     &::-webkit-scrollbar-track {
       background-color: ${({ theme }) => theme.colors.tertiary};
-      border-radius: 8px;
-      margin: 16px 0;
+      /* border-radius: 8px; */
+      /* margin: 16px 0; */
     }
   }
 `;

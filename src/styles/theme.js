@@ -6,6 +6,7 @@ const theme = {
     accent: '#e2a011',
     text: {
       primary: '#c2c2c5',
+      secondary: '#000000',
       mods: {
         drop: '#62f2ff',
         recipie: '#5cff69',

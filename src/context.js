@@ -13,8 +13,8 @@ const defaultState = {
       id: '',
     },
   },
-  combinations: [],
-  items: {
+  combinations: JSON.parse(window.localStorage.getItem('combinations')) || [],
+  items: JSON.parse(window.localStorage.getItem('items')) || {
     owned: [{ imgName: 'vamperic.png', name: 'Vamperic', amount: 3 }],
     needed: [],
   },

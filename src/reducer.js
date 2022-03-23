@@ -179,7 +179,6 @@ const reducer = (state, action) => {
                 if (found) found.amount++;
                 else {
                   const dupe = structuredClone(mod);
-                  console.log(dupe);
                   needed.push({ ...dupe, amount: 1 });
                 }
 
@@ -191,15 +190,13 @@ const reducer = (state, action) => {
           findNeeded(combination.mods);
         });
 
-      console.log(needed);
-
       return {
         ...state,
         combinations,
         refresh: false,
         items: {
           ...state.items,
-          needed,
+          needed: needed.sort((a, b) => a.name.localeCompare(b.name)),
         },
       };
     }

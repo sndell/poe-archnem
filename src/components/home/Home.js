@@ -14,7 +14,7 @@ const StyledHome = styled.div`
 `;
 const Home = () => {
   const {
-    state: { explorer, menu, combinations, refresh },
+    state: { refresh, combinations, explorer, menu, items },
     dispatch,
   } = GlobalContext();
 
@@ -26,6 +26,11 @@ const Home = () => {
       });
     }
   }, [refresh, combinations, dispatch]);
+
+  useEffect(() => {
+    window.localStorage.setItem('combinations', JSON.stringify(combinations));
+    window.localStorage.setItem('items', JSON.stringify(items));
+  }, [combinations, items]);
 
   return (
     <StyledHome>

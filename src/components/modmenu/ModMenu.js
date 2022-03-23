@@ -6,6 +6,7 @@ import { GrClose, GrCheckmark } from 'react-icons/gr';
 import { BiSearch } from 'react-icons/bi';
 
 const StyledModMenu = styled.div`
+  z-index: 10;
   background-color: #000000b4;
   position: absolute;
   left: 0;
