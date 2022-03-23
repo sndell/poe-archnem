@@ -115,7 +115,6 @@ const reducer = (state, action) => {
     }
     case 'COMBINATIONS_DELETE': {
       const combinations = JSON.parse(JSON.stringify(state.combinations));
-      const items = JSON.parse(JSON.stringify(state.items));
 
       return {
         ...state,

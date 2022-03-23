@@ -25,7 +25,7 @@ const Home = () => {
         payload: combinations,
       });
     }
-  }, [refresh]);
+  }, [refresh, combinations, dispatch]);
 
   return (
     <StyledHome>
