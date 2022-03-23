@@ -13,6 +13,7 @@ const defaultState = {
       id: '',
     },
   },
+  combinations: [],
 };
 
 const AppContext = React.createContext();

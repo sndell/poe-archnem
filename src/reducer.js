@@ -43,6 +43,15 @@ const reducer = (state, action) => {
     case 'COMBINATIONS_NEW': {
       return {
         ...state,
+        combinations: [
+          ...state.combinations,
+          {
+            id: Date.now().toString(),
+            name: 'New combination',
+            active: true,
+            mods: JSON.parse(JSON.stringify(action.payload)),
+          },
+        ],
       };
     }
     default:
