@@ -158,6 +158,7 @@ const reducer = (state, action) => {
         const resetMods = (mods) => {
           mods.forEach((mod) => {
             if (mod.assigned) delete mod.assigned;
+            if (mod.ready) delete mod.ready;
             if (mod.combination) resetMods(mod.combination);
           });
         };
@@ -192,15 +193,41 @@ const reducer = (state, action) => {
                     }
                   });
                 };
-                console.log(combination.mods);
                 findMod(combination.mods);
                 if (found) {
                   found.assigned = true;
                   owned.amount--;
+                  if (found.combination) {
+                    const assignChildren = (mods) => {
+                      mods.forEach((mod) => {
+                        mod.assigned = true;
+                        if (mod.combination) assignChildren(mod.combination);
+                      });
+                    };
+                    assignChildren(found.combination);
+                  }
                 }
                 count--;
               }
             });
+        });
+
+      combinations
+        .filter((item) => item.active)
+        .forEach((combination) => {
+          const findNeeded = (mods) => {
+            mods
+              .filter((mod) => mod.combination)
+              .forEach((mod) => {
+                if (!mod.assigned) {
+                  const found = mod.combination.find(
+                    (found) => !found.assigned
+                  );
+                  if (!found) mod.ready = true;
+                }
+              });
+          };
+          findNeeded(combination.mods);
         });
 
       combinations
