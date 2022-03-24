@@ -243,6 +243,20 @@ const reducer = (state, action) => {
         refresh: true,
       };
     }
+    case 'ITEMS_REMOVE-OWNED': {
+      const owned = JSON.parse(JSON.stringify(state.items.owned));
+      const found = owned.find((found) => found.name === action.payload.name);
+      found.amount--;
+
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          owned: owned.filter((item) => item.amount > 0),
+        },
+        refresh: true,
+      };
+    }
     default:
       throw new Error();
   }

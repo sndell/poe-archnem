@@ -40,6 +40,7 @@ const StyledOwnedMenuItem = styled.div`
       margin: 0 4px;
       h1 {
         color: black;
+        font-weight: 400;
         background-color: ${({ theme }) => theme.colors.accent};
         padding: 2px 6px;
         border-radius: 8px;
@@ -48,6 +49,7 @@ const StyledOwnedMenuItem = styled.div`
         color: ${({ theme }) => theme.colors.text.primary};
         font-size: 12px;
         cursor: pointer;
+        user-select: none;
         padding-right: 6px;
       }
       svg:nth-child(1) {
@@ -66,7 +68,7 @@ const StyledOwnedMenuItem = styled.div`
 const OwnedMenuItem = ({ mod, type }) => {
   const {
     state: { menu, items },
-    // dispatch,
+    dispatch,
   } = GlobalContext();
 
   const [found, setFound] = useState();
@@ -74,6 +76,17 @@ const OwnedMenuItem = ({ mod, type }) => {
   useEffect(() => {
     setFound(items.owned.find((found) => found.name === mod.name));
   }, [items, mod]);
+
+  const handleAdd = () => {
+    dispatch({ type: 'ITEMS_ADD-OWNED', payload: mod });
+  };
+
+  const handleRemove = () => {
+    console.log('remove');
+    if (found) {
+      dispatch({ type: 'ITEMS_REMOVE-OWNED', payload: mod });
+    }
+  };
 
   return (
     <StyledOwnedMenuItem>
@@ -94,12 +107,8 @@ const OwnedMenuItem = ({ mod, type }) => {
           <h1>{mod.name}</h1>
         </div>
         <div className="details">
-          <FaMinus
-          // onClick={handleRemove}
-          />
-          <FaPlus
-          // onClick={handleAdd}
-          />
+          <FaMinus onClick={handleRemove} />
+          <FaPlus onClick={handleAdd} />
           <h1>{found ? found.amount : 0}</h1>
         </div>
       </div>
