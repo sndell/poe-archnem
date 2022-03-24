@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaPlus } from 'react-icons/fa';
+import { GlobalContext } from '../../context';
 
 const StyledSidebarItem = styled.div`
   display: flex;
@@ -36,7 +37,12 @@ const StyledSidebarItem = styled.div`
 `;
 
 const SidebarItem = ({ item }) => {
-  const handleClick = () => {};
+  const { dispatch } = GlobalContext();
+
+  const handleClick = () => {
+    console.log(item);
+    dispatch({ type: 'ITEMS_ADD-OWNED', payload: item });
+  };
   return (
     <StyledSidebarItem>
       <div className="info">

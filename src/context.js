@@ -12,6 +12,10 @@ const defaultState = {
       highlighted: [],
       id: '',
     },
+    owned: {
+      active: false,
+      highlighted: [],
+    },
   },
   combinations: JSON.parse(window.localStorage.getItem('combinations')) || [],
   items: JSON.parse(window.localStorage.getItem('items')) || {

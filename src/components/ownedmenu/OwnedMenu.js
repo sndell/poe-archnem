@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { GlobalContext } from '../../context';
-import ModMenuItem from './ModMenuItem';
-import { GrClose, GrCheckmark } from 'react-icons/gr';
+import { GrClose } from 'react-icons/gr';
 import { BiSearch } from 'react-icons/bi';
+import OwnedMenuItem from './OwnedMenuItem';
+import { GlobalContext } from '../../context';
 
-const StyledModMenu = styled.div`
+const StyledOwnedMenu = styled.div`
   background-color: #000000b4;
   position: absolute;
   left: 0;
@@ -25,7 +25,7 @@ const StyledModMenu = styled.div`
     .menu-top {
       height: 32px;
       /* background-color: ${({ theme }) => theme.colors.secondary};
-      border-bottom: 2px solid ${({ theme }) => theme.colors.accent}; */
+    border-bottom: 2px solid ${({ theme }) => theme.colors.accent}; */
       display: flex;
       align-items: center;
       background-color: ${({ theme }) => theme.colors.secondary};
@@ -75,39 +75,20 @@ const StyledModMenu = styled.div`
   }
 `;
 
-const ModMenu = () => {
+const OwnedMenu = () => {
   const {
-    state: { mods, menu },
+    state: { mods },
     dispatch,
   } = GlobalContext();
 
   const [inputText, setInputText] = useState('');
+  const input = useRef(null);
+
   const handleClose = () => {
     dispatch({
-      type: 'MENU_SET-MOD',
-      payload: { active: false, id: '', selected: [] },
+      type: 'MENU_SET-OWNED',
+      payload: { active: false },
     });
-  };
-
-  const handleConfirm = () => {
-    if (menu.mod.selected.length > 0) {
-      if (!menu.mod.id.length > 0) {
-        dispatch({ type: 'COMBINATIONS_NEW', payload: menu.mod.selected });
-        dispatch({
-          type: 'MENU_SET-MOD',
-          payload: { active: false, id: '', selected: [] },
-        });
-      } else {
-        dispatch({
-          type: 'COMBINATIONS_EDIT',
-          payload: { id: menu.mod.id, mods: menu.mod.selected },
-        });
-        dispatch({
-          type: 'MENU_SET-MOD',
-          payload: { active: false, id: '', selected: [] },
-        });
-      }
-    }
   };
 
   const handleInputText = (e) => {
@@ -119,12 +100,12 @@ const ModMenu = () => {
       const found = mods.filter((mod) =>
         mod.name.toLowerCase().includes(inputText.toLowerCase())
       );
-      dispatch({ type: 'MENU_SET-MOD-HIGHLIGHTED', payload: found });
-    } else dispatch({ type: 'MENU_SET-MOD-HIGHLIGHTED', payload: [] });
+      dispatch({ type: 'MENU_SET-OWNED-HIGHLIGHTED', payload: found });
+    } else dispatch({ type: 'MENU_SET-OWNED-HIGHLIGHTED', payload: [] });
   }, [inputText, dispatch, mods]);
 
   return (
-    <StyledModMenu>
+    <StyledOwnedMenu>
       <div className="menu">
         <div className="menu-top">
           <BiSearch />
@@ -133,6 +114,7 @@ const ModMenu = () => {
             value={inputText}
             onChange={handleInputText}
             placeholder="highlight mods..."
+            ref={input}
             autoFocus
           />
         </div>
@@ -140,12 +122,12 @@ const ModMenu = () => {
           {mods
             .filter((mod) => mod.name.includes('touched'))
             .map((mod) => (
-              <ModMenuItem mod={mod} key={`boss-${mod.name}`} type="boss" />
+              <OwnedMenuItem mod={mod} key={`boss-${mod.name}`} type="boss" />
             ))}
           {mods
             .filter((mod) => mod.combination && !mod.name.includes('touched'))
             .map((mod) => (
-              <ModMenuItem
+              <OwnedMenuItem
                 mod={mod}
                 key={`recipie-${mod.name}`}
                 type="recipie"
@@ -154,16 +136,15 @@ const ModMenu = () => {
           {mods
             .filter((mod) => !mod.combination)
             .map((mod) => (
-              <ModMenuItem mod={mod} key={`drop-${mod.name}`} type="drop" />
+              <OwnedMenuItem mod={mod} key={`drop-${mod.name}`} type="drop" />
             ))}
         </div>
         <div className="menu-bottom">
           <GrClose onClick={handleClose} />
-          <GrCheckmark onClick={handleConfirm} />
         </div>
       </div>
-    </StyledModMenu>
+    </StyledOwnedMenu>
   );
 };
 
-export default ModMenu;
+export default OwnedMenu;

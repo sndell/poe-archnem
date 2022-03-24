@@ -10,7 +10,7 @@ const StyledHome = styled.div`
   background-color: ${({ theme }) => theme.colors.primary};
   margin: 8px 0 8px 8px;
   border-radius: 8px;
-  /* overflow: hidden; */
+  overflow: hidden;
 `;
 const Home = () => {
   const {

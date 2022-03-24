@@ -4,6 +4,7 @@ import { GlobalContext } from '../../context';
 import SidebarItem from './SidebarItem';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import SidebarMenu from './SidebarMenu';
+import OwnedMenu from '../ownedmenu/OwnedMenu';
 
 const StyledSidebar = styled.div`
   min-width: 272px;
@@ -55,13 +56,19 @@ const StyledSidebar = styled.div`
 
     .filter {
       display: flex;
+      justify-content: space-between;
+      width: 104px;
       background-color: ${({ theme }) => theme.colors.tertiary};
       color: ${({ theme }) => theme.colors.text.primary};
       padding: 4px 6px;
-      border-radius: 8px;
       margin-top: 1px;
       cursor: pointer;
       user-select: none;
+
+      ${(props) =>
+        !props.active
+          ? 'border-radius: 8px;'
+          : 'border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;'}
 
       svg {
         padding: 0 2px 0 4px;
@@ -72,7 +79,7 @@ const StyledSidebar = styled.div`
 
 const Sidebar = () => {
   const {
-    state: { items },
+    state: { items, menu },
     dispatch,
   } = GlobalContext();
 
@@ -87,6 +94,13 @@ const Sidebar = () => {
 
   const handleMenu = () => {
     setMenuActive((old) => !old);
+  };
+
+  const handleOpen = () => {
+    dispatch({
+      type: 'MENU_SET-OWNED',
+      payload: { active: true },
+    });
   };
 
   const handleFilter = (filter) => {
@@ -112,7 +126,7 @@ const Sidebar = () => {
   }, [menuActive]);
 
   return (
-    <StyledSidebar>
+    <StyledSidebar active={menuActive}>
       <div className="sidebar-main">
         {filter.drop && (
           <div className="drop">
@@ -156,8 +170,11 @@ const Sidebar = () => {
           <h1>Filter</h1>
           {menuActive ? <MdKeyboardArrowDown /> : <MdKeyboardArrowUp />}
         </div>
-        <h1 className="owned">Owned</h1>
+        <h1 className="owned" onClick={handleOpen}>
+          Owned
+        </h1>
       </div>
+      {menu.owned.active && <OwnedMenu />}
     </StyledSidebar>
   );
 };

@@ -3,13 +3,14 @@ import styled from 'styled-components';
 
 const StyledSidebarMenu = styled.div`
   position: absolute;
-  bottom: 58px;
+  bottom: 38px;
   /* width: 256px; */
-  width: 140px;
+  width: 104px;
   background-color: ${({ theme }) => theme.colors.tertiary};
-  border: 1px solid #ffffff02;
-  padding: 8px;
-  border-radius: 8px;
+  /* border: 2px solid ${({ theme }) => theme.colors.accent}; */
+  padding: 4px 7px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 
   .option {
     padding: 4px 0;

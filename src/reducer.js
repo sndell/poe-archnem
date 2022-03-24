@@ -1,5 +1,32 @@
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'MENU_SET-OWNED': {
+      return {
+        ...state,
+        menu: {
+          ...state.menu,
+          owned: {
+            ...state.menu.owned,
+            active: action.payload.active,
+            highlighted: [],
+            selected: action.payload.selected,
+            id: action.payload.id,
+          },
+        },
+      };
+    }
+    case 'MENU_SET-OWNED-HIGHLIGHTED': {
+      return {
+        ...state,
+        menu: {
+          ...state.menu,
+          owned: {
+            ...state.menu.owned,
+            highlighted: action.payload,
+          },
+        },
+      };
+    }
     case 'MENU_SET-MOD': {
       return {
         ...state,
@@ -198,6 +225,22 @@ const reducer = (state, action) => {
           ...state.items,
           needed: needed.sort((a, b) => a.name.localeCompare(b.name)),
         },
+      };
+    }
+    case 'ITEMS_ADD-OWNED': {
+      const owned = JSON.parse(JSON.stringify(state.items.owned));
+      const found = owned.find((found) => found.name === action.payload.name);
+
+      if (found) found.amount++;
+      else owned.push({ ...action.payload, amount: 1 });
+
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          owned,
+        },
+        refresh: true,
       };
     }
     default:
