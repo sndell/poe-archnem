@@ -82,10 +82,7 @@ const OwnedMenuItem = ({ mod, type }) => {
   };
 
   const handleRemove = () => {
-    console.log('remove');
-    if (found) {
-      dispatch({ type: 'ITEMS_REMOVE-OWNED', payload: mod });
-    }
+    if (found) dispatch({ type: 'ITEMS_REMOVE-OWNED', payload: mod });
   };
 
   return (

@@ -176,8 +176,8 @@ const reducer = (state, action) => {
                 let layers = 0;
                 let temp = 0;
                 const findMod = (mods) => {
-                  temp++;
-                  mods.forEach((mod, index) => {
+                  mods.forEach((mod) => {
+                    temp++;
                     if (!mod.assigned) {
                       if (mod.name === owned.name) {
                         if (temp > layers) {
@@ -192,6 +192,7 @@ const reducer = (state, action) => {
                     }
                   });
                 };
+                console.log(combination.mods);
                 findMod(combination.mods);
                 if (found) {
                   found.assigned = true;
