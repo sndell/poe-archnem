@@ -173,11 +173,18 @@ const reducer = (state, action) => {
               let count = owned.amount;
               while (count > 0) {
                 let found;
+                let layers = 0;
+                let temp = 0;
                 const findMod = (mods) => {
-                  mods.forEach((mod) => {
+                  temp++;
+                  mods.forEach((mod, index) => {
                     if (!mod.assigned) {
                       if (mod.name === owned.name) {
-                        found = mod;
+                        if (temp > layers) {
+                          found = mod;
+                          layers = temp;
+                          temp = 0;
+                        }
                       }
                       if (mod.combination) {
                         findMod(mod.combination);
