@@ -42,7 +42,25 @@ const StyledCombinationsItem = styled.div`
       align-items: center;
       /* gap: 8px; */
       border-radius: 8px;
-      overflow: hidden;
+      position: relative;
+
+      /* .ready {
+        background-color: #ff1e00;
+        border-radius: 100%;
+        width: 14px;
+        height: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: 40px;
+        bottom: 16px;
+
+        h1 {
+          background: none;
+          font-size: 14px;
+        }
+      } */
 
       svg {
         cursor: pointer;
@@ -133,6 +151,10 @@ const CombinationsItem = ({ combination }) => {
     });
   };
 
+  const handleExplore = () => {
+    dispatch({ type: 'EXPLORER_SET', payload: combination });
+  };
+
   return (
     <StyledCombinationsItem>
       <div className="details">
@@ -163,7 +185,12 @@ const CombinationsItem = ({ combination }) => {
           ) : (
             <AiFillEye onClick={handleSelect} />
           )}
-          <h1>View</h1>
+          <h1 onClick={handleExplore}>View</h1>
+          {/* {combination.ready > 0 && (
+            <div className="ready">
+              <h1>{combination.ready}</h1>
+            </div>
+          )} */}
         </div>
         <div className="actions-position">
           <TiArrowSortedUp onClick={() => handleOrder('up')} />

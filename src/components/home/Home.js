@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { GlobalContext } from '../../context';
-import Explorer from '../explorer/HomeExplorer';
+import Explorer from '../explorer/Explorer';
 import Combinations from '../combinations/Combinations';
 import ModMenu from '../modmenu/ModMenu';
 
 const StyledHome = styled.div`
-  width: 800px;
+  width: 1120px;
   background-color: ${({ theme }) => theme.colors.primary};
   margin: 8px 0 8px 8px;
   border-radius: 8px;

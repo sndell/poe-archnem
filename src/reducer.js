@@ -151,14 +151,20 @@ const reducer = (state, action) => {
     }
     case 'COMBINATIONS_CALCULATE': {
       const combinations = JSON.parse(JSON.stringify(action.payload));
-      const items = JSON.parse(JSON.stringify(state.items));
+      const _items = JSON.parse(JSON.stringify(state.items));
+      const items = _items.owned
+        .filter((item) => item.combination)
+        .concat(_items.owned.filter((item) => !item.combination));
+      console.log(items);
       const needed = [];
+      console.log('refreasg');
 
       combinations.forEach((combination) => {
+        combination.ready = 0;
         const resetMods = (mods) => {
           mods.forEach((mod) => {
-            if (mod.assigned) delete mod.assigned;
-            if (mod.ready) delete mod.ready;
+            mod.assigned = false;
+            if (mod.combination) mod.ready = false;
             if (mod.combination) resetMods(mod.combination);
           });
         };
@@ -168,7 +174,7 @@ const reducer = (state, action) => {
       combinations
         .filter((item) => item.active === true)
         .forEach((combination) => {
-          items.owned
+          items
             .filter((item) => item.amount > 0)
             .forEach((owned) => {
               let count = owned.amount;
@@ -223,7 +229,11 @@ const reducer = (state, action) => {
                   const found = mod.combination.find(
                     (found) => !found.assigned
                   );
-                  if (!found) mod.ready = true;
+                  if (!found) {
+                    mod.ready = true;
+                    combination.ready++;
+                  }
+                  findNeeded(mod.combination);
                 }
               });
           };
@@ -243,7 +253,6 @@ const reducer = (state, action) => {
                   const dupe = structuredClone(mod);
                   needed.push({ ...dupe, amount: 1 });
                 }
-
                 if (mod.combination) {
                   findNeeded(mod.combination);
                 }
@@ -251,6 +260,10 @@ const reducer = (state, action) => {
           };
           findNeeded(combination.mods);
         });
+
+      let explorer = {};
+      if (state.explorer.id)
+        explorer = combinations.find((found) => found.id === state.explorer.id);
 
       return {
         ...state,
@@ -260,6 +273,7 @@ const reducer = (state, action) => {
           ...state.items,
           needed: needed.sort((a, b) => a.name.localeCompare(b.name)),
         },
+        explorer,
       };
     }
     case 'ITEMS_ADD-OWNED': {
@@ -290,6 +304,34 @@ const reducer = (state, action) => {
           owned: owned.filter((item) => item.amount > 0),
         },
         refresh: true,
+      };
+    }
+    case 'ITEMS_COMBINE-OWNED': {
+      const owned = JSON.parse(JSON.stringify(state.items.owned));
+      action.payload.combination.forEach((item) => {
+        const found = owned.find((found) => found.name === item.name);
+        found.amount--;
+      });
+
+      const found = owned.find((found) => found.name === action.payload.name);
+      if (found) found.amount++;
+      else owned.push({ ...action.payload, amount: 1 });
+      console.log(owned);
+
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          owned: owned.filter((item) => item.amount > 0),
+        },
+        refresh: true,
+      };
+    }
+    case 'EXPLORER_SET': {
+      console.log('set');
+      return {
+        ...state,
+        explorer: action.payload,
       };
     }
     default:
