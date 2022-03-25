@@ -44,7 +44,7 @@ const StyledCombinationsItem = styled.div`
       border-radius: 8px;
       position: relative;
 
-      /* .ready {
+      .ready {
         background-color: #ff1e00;
         border-radius: 100%;
         width: 14px;
@@ -60,7 +60,7 @@ const StyledCombinationsItem = styled.div`
           background: none;
           font-size: 14px;
         }
-      } */
+      }
 
       svg {
         cursor: pointer;
@@ -186,11 +186,11 @@ const CombinationsItem = ({ combination }) => {
             <AiFillEye onClick={handleSelect} />
           )}
           <h1 onClick={handleExplore}>View</h1>
-          {/* {combination.ready > 0 && (
+          {combination.ready > 0 && (
             <div className="ready">
               <h1>{combination.ready}</h1>
             </div>
-          )} */}
+          )}
         </div>
         <div className="actions-position">
           <TiArrowSortedUp onClick={() => handleOrder('up')} />
